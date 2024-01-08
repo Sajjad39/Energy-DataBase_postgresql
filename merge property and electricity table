@@ -1,0 +1,25 @@
+CREATE TABLE IF NOT EXISTS public.property_electricity
+(
+    "timestamp" timestamp without time zone,
+    "reportingGroup" "char",
+    "locationName" character varying COLLATE pg_catalog."default",
+    value real,
+    unit "char",
+    "propertyCode" character varying COLLATE pg_catalog."default",
+    "propertyName" character varying COLLATE pg_catalog."default"
+);
+
+-- Insert data into property_electricity from property and electricity tables
+INSERT INTO public.property_electricity
+SELECT
+    e."timestamp",
+    e."reportingGroup",
+    e."locationName",
+    e.value,
+    e.unit,
+    p."propertyCode",
+    p."propertyName"
+FROM
+    electricity e
+JOIN
+    public.property p ON e."locationName" = p."locationName";
